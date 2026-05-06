@@ -62,7 +62,7 @@ uv sync
 ### 4. Download the data
 
 1. Open this OneDrive link:
-   <https://acrocyte-my.sharepoint.com/:f:/p/adam_wang/IgCXUmqzRV_LSLsSd-3Sk4vxAcgxz7Wjbdi__ONE4YsWgvk?e=YVHkx9>
+   <https://acrocyte-my.sharepoint.com/:f:/p/adam_wang/IgCXUmqzRV_LSLsSd-3Sk4vxAcgxz7Wjbdi__ONE4YsWgvk?e=BnLejB>
 2. When prompted for a password, ask the interviewer.
 3. Click **Download** at the top — SharePoint will package the folder as a single zip (~600 MB). Takes a couple of minutes.
 4. Move (or copy) the downloaded zip into `working_directory/` (next to `verify_data.py`). Don't unzip it yourself.

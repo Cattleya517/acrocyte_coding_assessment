@@ -13,7 +13,7 @@ from pathlib import Path
 HERE = Path(__file__).parent
 DATA_DIR = HERE / "data"
 
-ONEDRIVE_URL = "https://acrocyte-my.sharepoint.com/:f:/p/adam_wang/IgCXUmqzRV_LSLsSd-3Sk4vxAcgxz7Wjbdi__ONE4YsWgvk?e=YVHkx9"
+ONEDRIVE_URL = "https://acrocyte-my.sharepoint.com/:f:/p/adam_wang/IgCXUmqzRV_LSLsSd-3Sk4vxAcgxz7Wjbdi__ONE4YsWgvk?e=BnLejB"
 
 # Files at data/ root.
 ROOT_FILES = ["leetcode_pool.txt"]
