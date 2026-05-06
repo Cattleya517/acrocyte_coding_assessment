@@ -65,20 +65,12 @@ uv sync
    <https://acrocyte-my.sharepoint.com/:f:/p/adam_wang/IgCXUmqzRV_LSLsSd-3Sk4vxAcgxz7Wjbdi__ONE4YsWgvk?e=YVHkx9>
 2. When prompted for a password, ask the interviewer.
 3. Click **Download** at the top — SharePoint will package the folder as a single zip (~600 MB). Takes a couple of minutes.
-4. Unzip it so the contents end up under `working_directory/data/`. The expected layout is:
-   ```
-   working_directory/data/
-   ├── leetcode_pool.txt
-   ├── old microscope/
-   ├── new microscope/
-   └── cells csv/
-   ```
-   (If your unzip created an extra wrapper folder, just move the contents up one level.)
-5. Verify:
+4. Move (or copy) the downloaded zip into `working_directory/` (next to `verify_data.py`). Don't unzip it yourself.
+5. Run:
    ```bash
    uv run python verify_data.py
    ```
-   You should see `Data OK (13 files in ...)`.
+   This unzips everything into `data/`, flattens any wrapper folders, and verifies. You should see `Data OK (13 files in ...)`. After it succeeds, you can delete the OneDrive zip.
 
 ### 5. Open Jupyter
 
