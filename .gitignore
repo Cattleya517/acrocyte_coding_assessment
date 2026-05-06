@@ -1,0 +1,11 @@
+# Data (downloaded at runtime)
+working_directory/data/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
