@@ -149,15 +149,19 @@ working_directory/data/
 - For each sub-question, write your **approach** in the markdown cell first, then implement.
 - Talk through your thinking out loud — that's the main thing we care about.
 
-### Part 2.1 — Mean intensity of one cell
+### Part 2.1 — How many cells are in this image?
+
+Use the mask file to figure out how many cells the image contains.
+
+### Part 2.2 — Mean intensity of one cell
 
 A standard way to measure protein expression level is the mean intensity of a cell in the relevant channel. Compute the mean intensity of **cell 100** (in the old microscope's red channel).
 
-### Part 2.2 — Mean intensity of all cells
+### Part 2.3 — Mean intensity of all cells
 
 Compute the mean intensity of every cell.
 
-### Part 2.3 — Old → new microscope translation (open-ended discussion)
+### Part 2.4 — Old → new microscope translation (open-ended discussion)
 
 We use intensity thresholds (set from old microscope data) to decide whether a cell expresses a given protein. E.g., "if mean red intensity > 5000, the cell is protein X positive."
 
