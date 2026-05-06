@@ -25,7 +25,7 @@ You should be able to do this in a terminal. We'll watch over your shoulder; if 
 - The commands below are identical on Windows; run them in **PowerShell**, **cmd**, or **Git Bash**.
 - If you don't have Python yet, install **Python 3.11+** from <https://www.python.org/downloads/>. During the installer, check **"Add python.exe to PATH"**.
 - If `pip install uv` fails, try `python -m pip install uv` instead.
-- Built-in unzip (right-click → "Extract All") sometimes creates an extra wrapper folder. See step 4 below if that happens.
+- Don't unzip the OneDrive download yourself — let `verify_data.py` handle it (see step 4).
 
 ### 1. Clone
 
@@ -118,10 +118,11 @@ We scanned the same slide with two microscopes:
 
 So we have 4 channels × 2 scans = 8 images. Plus a "mask" file per scan (10 total). The mask labels every cell with a unique integer; pixels with value 0 are background.
 
-The data layout (after `download_data.py`) is:
+The data layout (after `verify_data.py`) is:
 
 ```
 working_directory/data/
+├── leetcode_pool.txt
 ├── old microscope/
 │   ├── old blue.tif
 │   ├── old green.tif
@@ -179,7 +180,7 @@ This part is mostly a discussion. Pseudo-code is fine; full implementation is op
 ```bash
 cd working_directory
 pip install -r requirements.txt
-python download_data.py
+python verify_data.py
 python warmup.py
 jupyter lab
 ```
