@@ -12,7 +12,7 @@ If you use **VS Code, Cursor, Copilot, or any IDE that loads a folder as workspa
 If you use a **CLI agent (Claude Code, Aider, Codex CLI, etc.):**
 **`cd working_directory/` first, then start the agent there.**
 
-Why: this document contains the question text, and we want to see *you* think — not your agent reading the question off disk.
+Why: this document contains the question text, and we want to see _you_ think — not your agent reading the question off disk.
 
 ---
 
@@ -20,10 +20,17 @@ Why: this document contains the question text, and we want to see *you* think �
 
 You should be able to do this in a terminal. We'll watch over your shoulder; if any step gets stuck on your environment, just say so.
 
+### Notes for Windows users
+
+- The commands below are identical on Windows; run them in **PowerShell**, **cmd**, or **Git Bash**.
+- If you don't have Python yet, install **Python 3.11+** from <https://www.python.org/downloads/>. During the installer, check **"Add python.exe to PATH"**.
+- If `pip install uv` fails, try `python -m pip install uv` instead.
+- Built-in unzip (right-click → "Extract All") sometimes creates an extra wrapper folder. See step 4 below if that happens.
+
 ### 1. Clone
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/Cattleya517/acrocyte_coding_assessment.git
 cd acrocyte_coding_assessment
 ```
 
@@ -31,6 +38,12 @@ cd acrocyte_coding_assessment
 
 ```bash
 pip install uv
+```
+
+or
+
+```bash
+wget -qO- https://astral.sh/uv/install.sh | sh
 ```
 
 If `pip install uv` is blocked at your company, the fallback is plain pip — see the bottom of this document.
@@ -84,6 +97,7 @@ uv run python warmup.py
 It will print a LeetCode URL. Solve it on leetcode.com.
 
 **Rules for Part 1:**
+
 - You may google syntax or look up error messages.
 - Searching for the solution directly is not allowed.
 - **AI / coding agents are not allowed for Part 1.**
@@ -133,7 +147,7 @@ working_directory/data/
     └── new cells.csv
 ```
 
-**Note on autofluorescence.** Even without staining, cells fluoresce a bit. So "does this cell express protein X?" is not just "is its red intensity nonzero?". Raw intensity values have no units — they only mean something *relative to other intensities measured under the same conditions*.
+**Note on autofluorescence.** Even without staining, cells fluoresce a bit. So "does this cell express protein X?" is not just "is its red intensity nonzero?". Raw intensity values have no units — they only mean something _relative to other intensities measured under the same conditions_.
 
 ### Part 2 rules
 
