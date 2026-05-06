@@ -8,6 +8,7 @@ the OneDrive download — run `verify_data.py` first if you don't have it.
 """
 import random
 import sys
+import webbrowser
 from pathlib import Path
 
 POOL_FILE = Path(__file__).parent / "data" / "leetcode_pool.txt"
@@ -40,6 +41,13 @@ def main() -> None:
     print(f"  {url}")
     print()
     print("Solve it on leetcode.com. AI assistance is NOT allowed for this part.")
+    try:
+        opened = webbrowser.open(url, new=2)
+        if opened:
+            print()
+            print("(Opened in your default browser.)")
+    except Exception:
+        pass
 
 
 if __name__ == "__main__":

@@ -146,7 +146,7 @@ def main() -> None:
             check_file(f"{folder}/{f}", folder_path / f, missing, found)
 
     if missing:
-        print("Data verification FAILED:", file=sys.stderr)
+        print("❌ Data verification FAILED:", file=sys.stderr)
         for line in missing:
             print(line, file=sys.stderr)
         print(file=sys.stderr)
@@ -159,7 +159,7 @@ def main() -> None:
                 print(f"    {f}", file=sys.stderr)
         sys.exit(1)
 
-    print(f"Data OK ({len(found)} files in {DATA_DIR}):")
+    print(f"✅ Data OK ({len(found)} files in {DATA_DIR}):")
     for line in found:
         print(line)
 
