@@ -72,14 +72,6 @@ uv sync
    ```
    This unzips everything into `data/`, flattens any wrapper folders, and verifies. You should see `Data OK (13 files in ...)`. After it succeeds, you can delete the OneDrive zip.
 
-### 5. Open Jupyter
-
-```bash
-uv run jupyter lab
-```
-
-Open `notebook.ipynb` in the Jupyter UI.
-
 ---
 
 ## Part 1 — Warmup
@@ -101,6 +93,10 @@ It will print a LeetCode URL. Solve it on leetcode.com.
 ---
 
 ## Part 2 — Microscope image analysis
+
+### Open Jupyter
+
+Open `notebook.ipynb`.
 
 ### Background
 
