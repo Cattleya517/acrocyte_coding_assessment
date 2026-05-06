@@ -1,5 +1,6 @@
 # Data (downloaded at runtime)
 working_directory/data/
+*.zip
 
 # Python
 __pycache__/
