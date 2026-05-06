@@ -1,7 +1,7 @@
 [project]
-name = "microscope-assessment"
+name = "acrocyte-coding-assessment"
 version = "0.1.0"
-description = "Microscope coding assessment working directory"
+description = "Acrocyte coding assessment working directory"
 requires-python = ">=3.11"
 dependencies = [
     "numpy>=1.26",

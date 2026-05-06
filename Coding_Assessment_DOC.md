@@ -24,7 +24,7 @@ You should be able to do this in a terminal. We'll watch over your shoulder; if 
 
 ```bash
 git clone <repo-url>
-cd microscope-assessment
+cd acrocyte_coding_assessment
 ```
 
 ### 2. Install uv (if you don't have it)
