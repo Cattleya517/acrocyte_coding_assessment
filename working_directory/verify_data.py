@@ -13,6 +13,8 @@ from pathlib import Path
 HERE = Path(__file__).parent
 DATA_DIR = HERE / "data"
 
+ONEDRIVE_URL = "https://acrocyte-my.sharepoint.com/:f:/p/adam_wang/IgCXUmqzRV_LSLsSd-3Sk4vxAcgxz7Wjbdi__ONE4YsWgvk?e=YVHkx9"
+
 # Files at data/ root.
 ROOT_FILES = ["leetcode_pool.txt"]
 
@@ -39,12 +41,40 @@ SUBFOLDER_FILES = {
 }
 
 
-def find_zip() -> Path | None:
-    """Return the first *.zip file at the top of working_directory/, if any."""
-    for f in HERE.iterdir():
+def find_zip_in(directory: Path) -> Path | None:
+    """Return the first *.zip file at the top of `directory`, if any."""
+    if not directory.exists():
+        return None
+    for f in directory.iterdir():
         if f.is_file() and f.suffix.lower() == ".zip":
             return f
     return None
+
+
+def find_zip() -> Path | None:
+    return find_zip_in(HERE)
+
+
+def relocate_misplaced_zip() -> None:
+    """If the user accidentally dropped the OneDrive zip one level above
+    working_directory/ (the repo root), move it down here."""
+    if find_zip_in(HERE) is not None:
+        return  # already in the right place
+    parent_zip = find_zip_in(HERE.parent)
+    if parent_zip is None:
+        return
+    target = HERE / parent_zip.name
+    print(f"Found {parent_zip.name} in {HERE.parent.name}/, moving into {HERE.name}/ ...")
+    parent_zip.rename(target)
+
+
+def show_download_instructions() -> None:
+    print("ERROR: no data and no .zip found.", file=sys.stderr)
+    print(file=sys.stderr)
+    print("Download the OneDrive bundle (ask the interviewer for the password):", file=sys.stderr)
+    print(f"  {ONEDRIVE_URL}", file=sys.stderr)
+    print(file=sys.stderr)
+    print(f"Then move the downloaded .zip into {HERE} and re-run this script.", file=sys.stderr)
 
 
 IGNORE_NAMES = {".DS_Store", "__MACOSX"}
@@ -124,11 +154,11 @@ def check_file(rel_path: str, full_path: Path, missing: list[str], found: list[s
 
 
 def main() -> None:
+    relocate_misplaced_zip()
     maybe_extract()
 
     if not DATA_DIR.exists():
-        print(f"ERROR: {DATA_DIR} does not exist.", file=sys.stderr)
-        print("Did you download the OneDrive zip into this directory?", file=sys.stderr)
+        show_download_instructions()
         sys.exit(1)
 
     missing: list[str] = []
