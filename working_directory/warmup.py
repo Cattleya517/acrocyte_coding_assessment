@@ -1,23 +1,41 @@
 """Print a random LeetCode warmup URL.
 
 Usage: uv run python warmup.py
+
+The problem pool is read from `data/leetcode_pool.txt` (one URL per line,
+blank lines and lines starting with '#' are ignored). That file ships in
+the OneDrive download — run `verify_data.py` first if you don't have it.
 """
 import random
+import sys
+from pathlib import Path
 
-PROBLEMS = [
-    "https://leetcode.com/problems/fizz-buzz/",
-    "https://leetcode.com/problems/reverse-string/",
-    "https://leetcode.com/problems/length-of-last-word/",
-    "https://leetcode.com/problems/jewels-and-stones/",
-    "https://leetcode.com/problems/number-of-1-bits/",
-    "https://leetcode.com/problems/contains-duplicate/",
-    "https://leetcode.com/problems/missing-number/",
-    "https://leetcode.com/problems/single-number/",
-]
+POOL_FILE = Path(__file__).parent / "data" / "leetcode_pool.txt"
+
+
+def load_pool() -> list[str]:
+    if not POOL_FILE.exists():
+        print(f"ERROR: {POOL_FILE} not found.", file=sys.stderr)
+        print("Did you download and unzip the OneDrive data?", file=sys.stderr)
+        print("Run: uv run python verify_data.py", file=sys.stderr)
+        sys.exit(1)
+
+    urls = []
+    for line in POOL_FILE.read_text().splitlines():
+        line = line.strip()
+        if line and not line.startswith("#"):
+            urls.append(line)
+
+    if not urls:
+        print(f"ERROR: {POOL_FILE} is empty.", file=sys.stderr)
+        sys.exit(1)
+
+    return urls
 
 
 def main() -> None:
-    url = random.choice(PROBLEMS)
+    pool = load_pool()
+    url = random.choice(pool)
     print("Your warmup problem:")
     print(f"  {url}")
     print()

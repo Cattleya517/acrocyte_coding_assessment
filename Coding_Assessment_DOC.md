@@ -35,17 +35,35 @@ pip install uv
 
 If `pip install uv` is blocked at your company, the fallback is plain pip — see the bottom of this document.
 
-### 3. Install dependencies and download data
+### 3. Install dependencies
 
 ```bash
 cd working_directory
 uv sync
-uv run python download_data.py
 ```
 
-The download is ~600 MB from OneDrive. Takes a couple of minutes.
+### 4. Download the data
 
-### 4. Open Jupyter
+1. Open this OneDrive link:
+   <https://acrocyte-my.sharepoint.com/:f:/p/adam_wang/IgCXUmqzRV_LSLsSd-3Sk4vxAcgxz7Wjbdi__ONE4YsWgvk?e=YVHkx9>
+2. When prompted for a password, ask the interviewer.
+3. Click **Download** at the top — SharePoint will package the folder as a single zip (~600 MB). Takes a couple of minutes.
+4. Unzip it so the contents end up under `working_directory/data/`. The expected layout is:
+   ```
+   working_directory/data/
+   ├── leetcode_pool.txt
+   ├── old microscope/
+   ├── new microscope/
+   └── cells csv/
+   ```
+   (If your unzip created an extra wrapper folder, just move the contents up one level.)
+5. Verify:
+   ```bash
+   uv run python verify_data.py
+   ```
+   You should see `Data OK (13 files in ...)`.
+
+### 5. Open Jupyter
 
 ```bash
 uv run jupyter lab
