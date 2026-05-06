@@ -40,10 +40,14 @@ cd acrocyte_coding_assessment
 pip install uv
 ```
 
-or
+Or, if you prefer Astral's standalone installer:
 
 ```bash
-wget -qO- https://astral.sh/uv/install.sh | sh
+# macOS / Linux
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Windows (PowerShell)
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
 ```
 
 If `pip install uv` is blocked at your company, the fallback is plain pip — see the bottom of this document.
