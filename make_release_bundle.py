@@ -11,9 +11,10 @@ Produces two AES-256 encrypted assets that candidates decrypt from inside Colab:
 Both ciphertexts are safe to host publicly on GitHub Releases — without the password
 they're useless. The same password is given to candidates verbally at interview time.
 
-Usage (pyzipper is installed ephemerally, not added to the project):
+Usage (needs pyzipper):
 
-    uv run --with pyzipper python make_release_bundle.py
+    pip install pyzipper
+    python make_release_bundle.py
 
 Then upload as Release assets:
 

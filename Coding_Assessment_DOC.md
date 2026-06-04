@@ -4,89 +4,26 @@ Welcome. The purpose of this assessment is **not** to get the correct answer as 
 
 ---
 
-## ⚠️ Before you start — IDE / agent setup
+## How to run — everything is in Google Colab
 
-If you use **VS Code, Cursor, Copilot, or any IDE that loads a folder as workspace context:**
-**`open folder` on `working_directory/` only.** Do not open the parent repo as your workspace.
+This assessment runs **entirely in your browser via Google Colab**. There is nothing to install and no data to download by hand.
 
-If you use a **CLI agent (Claude Code, Aider, Codex CLI, etc.):**
-**`cd working_directory/` first, then start the agent there.**
+1. Open the notebook — click the **Open in Colab** badge in [`README.md`](README.md), or open
+   `working_directory/notebook_colab.ipynb` in Colab.
+2. Run the **Setup** cell (installs `tifffile`, `pyzipper`, `tqdm`).
+3. Run the **Unlock** cell and enter the **data password** — *ask your interviewer*. You enter it
+   **once**; the same password unlocks the Part 2 image data later in the notebook.
+4. **Part 1** draws your warmup problem right away.
+5. When you reach **Part 2**, run the download cell (~1 GB, a couple of minutes — you'll see a
+   progress bar), then work through the scaffolded sections.
 
-Why: this document contains the question text, and we want to see _you_ think — not your agent reading the question off disk.
-
----
-
-## Setup
-
-You should be able to do this in a terminal. We'll watch over your shoulder; if any step gets stuck on your environment, just say so.
-
-### Notes for Windows users
-
-- The commands below are identical on Windows; run them in **PowerShell**, **cmd**, or **Git Bash**.
-- If you don't have Python yet, install **Python 3.11+** from <https://www.python.org/downloads/>. During the installer, check **"Add python.exe to PATH"**.
-- If `pip install uv` fails, try `python -m pip install uv` instead.
-- Don't unzip the OneDrive download yourself — let `verify_data.py` handle it (see step 4).
-
-### 1. Clone
-
-```bash
-git clone https://github.com/Cattleya517/acrocyte_coding_assessment.git
-cd acrocyte_coding_assessment
-```
-
-### 2. Install uv (if you don't have it)
-
-```bash
-pip install uv
-```
-
-Or, if you prefer Astral's standalone installer:
-
-```bash
-# macOS / Linux
-curl -LsSf https://astral.sh/uv/install.sh | sh
-
-# Windows (PowerShell)
-powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
-```
-
-If `pip install uv` is blocked at your company, the fallback is plain pip — see the bottom of this document.
-
-### 3. Install dependencies
-
-```bash
-cd working_directory
-uv sync
-```
-
-### 4. Download the data
-
-1. Open this OneDrive link:
-   <https://acrocyte-my.sharepoint.com/:f:/p/adam_wang/IgCXUmqzRV_LSLsSd-3Sk4vxAcgxz7Wjbdi__ONE4YsWgvk?e=BnLejB>
-2. When prompted for a password, ask the interviewer.
-3. Click **Download** at the top — SharePoint will package the folder as a single zip (~600 MB). Takes a couple of minutes.
-4. Move (or copy) the downloaded zip into `working_directory/` (next to `verify_data.py`). Don't unzip it yourself.
-5. Run:
-   ```bash
-   uv run python verify_data.py
-   ```
-   This unzips everything into `data/`, flattens any wrapper folders, and verifies. You should see `Data OK (13 files in ...)`. After it succeeds, you can delete the OneDrive zip.
+> If Colab is blocked for you, or the data won't download, just tell your interviewer and we'll sort it out.
 
 ---
 
 ## Part 1 — Warmup
 
-> **Prefer the browser?** The Colab notebook (the "Open in Colab" badge in `README.md`,
-> `working_directory/notebook_colab.ipynb`) covers both parts. Run Setup + Unlock, then
-> the Part 1 cell draws your problem. The rest of this section is for the local route.
-
-In a terminal (still inside `working_directory/`), run:
-
-```bash
-uv run python warmup.py
-```
-
-It will print a LeetCode URL. Solve it on leetcode.com.
+Run the **Part 1** cell in the notebook. It prints — and links — a LeetCode problem. Solve it on [leetcode.com](https://leetcode.com).
 
 **Rules for Part 1:**
 
@@ -98,14 +35,7 @@ It will print a LeetCode URL. Solve it on leetcode.com.
 
 ## Part 2 — Microscope image analysis
 
-> **Prefer the browser?** You can do Part 2 entirely in **Google Colab** — no local
-> setup or data download. Use the "Open in Colab" badge in `README.md`. It opens
-> `working_directory/notebook_colab.ipynb`; run the setup cells and enter the data
-> password (ask the interviewer). The rest of this section is for the local Jupyter route.
-
-### Open Jupyter
-
-Open `notebook.ipynb`.
+Run the **Part 2** download cell in the notebook, then use the scaffolded sections. Before the questions, the notebook includes a short `vmin`/`vmax` display demo and a zoomed-in look at the mask, so the display conventions are clear.
 
 ### Background
 
@@ -127,10 +57,10 @@ We scanned the same slide with two microscopes:
 
 So we have 4 channels × 2 scans = 8 images. Plus a "mask" file per scan (10 total). The mask labels every cell with a unique integer; pixels with value 0 are background.
 
-The data layout (after `verify_data.py`) is:
+The data layout (after the download cell) is:
 
 ```
-working_directory/data/
+data/
 ├── leetcode_pool.txt
 ├── old microscope/
 │   ├── old blue.tif
@@ -154,7 +84,6 @@ working_directory/data/
 ### Part 2 rules
 
 - AI agents allowed.
-- Open `notebook.ipynb` in Jupyter and use the scaffolded sections.
 - For each sub-question, write your **approach** in the markdown cell first, then implement.
 - Talk through your thinking out loud — that's the main thing we care about.
 
@@ -185,17 +114,3 @@ This part is mostly a discussion. Pseudo-code is fine; full implementation is op
 ## (Optional) Inspecting the .tif files
 
 [ImageJ](https://imagej.net/ij/download.html) is the easiest way. macOS Preview / Windows Photos won't auto-scale 12/16-bit images so they look black — that doesn't mean the file is broken. In ImageJ, after opening: Image → Adjust → Brightness/Contrast → Auto.
-
----
-
-## Fallback: if `uv` is blocked
-
-```bash
-cd working_directory
-pip install -r requirements.txt
-python verify_data.py
-python warmup.py
-jupyter lab
-```
-
-If your company also blocks PyPI / OneDrive entirely, let us know — we'll bring the data on a USB drive.
