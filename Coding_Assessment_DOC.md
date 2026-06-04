@@ -76,6 +76,11 @@ uv sync
 
 ## Part 1 — Warmup
 
+> **Prefer the browser?** There's a Colab version of the draw — use the Part 1
+> "Open in Colab" badge in `README.md` (opens `working_directory/warmup_colab.ipynb`).
+> Run the cells, enter the data password, and it draws your problem. The rest of this
+> section is for the local route.
+
 In a terminal (still inside `working_directory/`), run:
 
 ```bash

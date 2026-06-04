@@ -2,13 +2,18 @@
 
 Open `Coding_Assessment_DOC.md` for setup and questions.
 
-## Part 2 in Google Colab (no local setup)
+## Run in Google Colab (no local setup)
 
-You can do **Part 2** entirely in the browser — no Python, `uv`, or local download needed:
+You can do the whole assessment in the browser — no Python, `uv`, or local download
+needed. Each notebook downloads and decrypts what it needs; enter the **data password**
+your interviewer provides.
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Cattleya517/acrocyte_coding_assessment/blob/main/working_directory/notebook_colab.ipynb)
+**Part 1 — warmup draw** (picks a random LeetCode problem):
 
-Click the badge, run the setup cells, and enter the **data password** (your interviewer
-provides it). The image data is downloaded and decrypted inside Colab.
+[![Open Part 1 In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Cattleya517/acrocyte_coding_assessment/blob/main/working_directory/warmup_colab.ipynb)
 
-> Part 1 (the LeetCode warmup) still runs locally — see `Coding_Assessment_DOC.md`.
+**Part 2 — microscope image analysis:**
+
+[![Open Part 2 In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Cattleya517/acrocyte_coding_assessment/blob/main/working_directory/notebook_colab.ipynb)
+
+> Prefer a local setup instead? See `Coding_Assessment_DOC.md`.

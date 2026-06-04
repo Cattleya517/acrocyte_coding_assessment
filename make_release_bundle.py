@@ -1,24 +1,27 @@
-"""Build the password-protected data bundle for GitHub Releases (interviewer tooling).
+"""Build the password-protected data bundles for GitHub Releases (interviewer tooling).
 
-This packs `working_directory/data/` into a single AES-256 encrypted zip that
-candidates download + decrypt from inside Colab (see working_directory/notebook_colab.ipynb).
+Produces two AES-256 encrypted assets that candidates decrypt from inside Colab:
 
-The ciphertext is safe to host publicly on GitHub Releases — without the password
-it's useless. The password is given to candidates verbally at interview time.
+  * data_encrypted.zip          -- Part 2 image data (old/new microscope + cells csv,
+                                   plus leetcode_pool.txt). Extracts to ./data/...
+  * leetcode_pool_encrypted.zip -- Part 1 only: just leetcode_pool.txt (a few KB), so
+                                   the warmup notebook doesn't download the ~600 MB
+                                   image bundle. Extracts to ./leetcode_pool.txt
+
+Both ciphertexts are safe to host publicly on GitHub Releases — without the password
+they're useless. The same password is given to candidates verbally at interview time.
 
 Usage (pyzipper is installed ephemerally, not added to the project):
 
     uv run --with pyzipper python make_release_bundle.py
 
-Then upload the result as a Release asset:
+Then upload as Release assets:
 
-    gh release create data-v1 data_encrypted.zip \
-        --repo Cattleya517/acrocyte_coding_assessment \
-        --title "Assessment data v1" \
-        --notes "Encrypted Part 2 image data. Password provided at interview."
+    gh release upload data-v1 data_encrypted.zip leetcode_pool_encrypted.zip \
+        --repo Cattleya517/acrocyte_coding_assessment --clobber
 
-To rotate the password later: re-run this script with a new password and
-`gh release upload data-v1 data_encrypted.zip --clobber`.
+To rotate the password later: re-run this script with a new password and re-upload
+with --clobber. The notebooks don't change (they prompt for the password at runtime).
 """
 import getpass
 import sys
@@ -28,26 +31,38 @@ import pyzipper
 
 HERE = Path(__file__).parent
 SRC = HERE / "working_directory" / "data"
-OUT = HERE / "data_encrypted.zip"
-ARCROOT = "data"  # entries are stored as data/<...> so they extract to ./data/
+DATA_OUT = HERE / "data_encrypted.zip"
+POOL_OUT = HERE / "leetcode_pool_encrypted.zip"
+POOL_NAME = "leetcode_pool.txt"
+ARCROOT = "data"  # big-bundle entries are stored as data/<...> -> extract to ./data/
 
 
-def collect_files(src: Path) -> list[Path]:
-    if not src.exists():
-        sys.exit(
-            f"ERROR: {src} not found.\n"
-            "Stage the data there first (extract the three OneDrive subfolder zips "
-            "into working_directory/data/ as 'old microscope/', 'new microscope/', "
-            "'cells csv/')."
-        )
-    files = sorted(p for p in src.rglob("*") if p.is_file() and p.name != ".DS_Store")
-    if not files:
-        sys.exit(f"ERROR: no files under {src}.")
-    return files
+def encrypt_zip(out: Path, entries: list[tuple[Path, str]], password: bytes) -> None:
+    """Write `entries` (src_path, arcname) into an AES-256 encrypted, deflated zip."""
+    with pyzipper.AESZipFile(
+        out, "w", compression=pyzipper.ZIP_DEFLATED, encryption=pyzipper.WZ_AES
+    ) as zf:
+        zf.setpassword(password)
+        zf.setencryption(pyzipper.WZ_AES, nbits=256)
+        for i, (src, arcname) in enumerate(entries, 1):
+            zf.write(src, arcname=arcname)
+            print(f"  [{i}/{len(entries)}] {arcname}")
 
 
 def main() -> None:
-    files = collect_files(SRC)
+    if not SRC.exists():
+        sys.exit(
+            f"ERROR: {SRC} not found.\n"
+            "Stage the data there first (the three microscope/csv subfolders plus "
+            "leetcode_pool.txt)."
+        )
+    files = sorted(p for p in SRC.rglob("*") if p.is_file() and p.name != ".DS_Store")
+    if not files:
+        sys.exit(f"ERROR: no files under {SRC}.")
+    pool_src = SRC / POOL_NAME
+    if not pool_src.exists():
+        sys.exit(f"ERROR: {pool_src} not found (needed for the Part 1 pool asset).")
+
     total_mb = sum(f.stat().st_size for f in files) / (1 << 20)
     print(f"Found {len(files)} files under {SRC} ({total_mb:.0f} MB uncompressed).")
 
@@ -59,20 +74,19 @@ def main() -> None:
         sys.exit("ERROR: empty password.")
     password = pw1.encode()
 
-    print(f"Encrypting (AES-256, deflate) -> {OUT.name} ...")
-    with pyzipper.AESZipFile(
-        OUT, "w", compression=pyzipper.ZIP_DEFLATED, encryption=pyzipper.WZ_AES
-    ) as zf:
-        zf.setpassword(password)
-        zf.setencryption(pyzipper.WZ_AES, nbits=256)
-        for i, f in enumerate(files, 1):
-            arcname = f"{ARCROOT}/{f.relative_to(SRC).as_posix()}"
-            zf.write(f, arcname=arcname)
-            print(f"  [{i}/{len(files)}] {arcname}")
+    print(f"\nEncrypting Part 2 bundle -> {DATA_OUT.name} ...")
+    big_entries = [(f, f"{ARCROOT}/{f.relative_to(SRC).as_posix()}") for f in files]
+    encrypt_zip(DATA_OUT, big_entries, password)
 
-    out_mb = OUT.stat().st_size / (1 << 20)
-    print(f"\nDone: {OUT} ({out_mb:.0f} MB)")
-    print("Next: upload as a GitHub Release asset (see this file's docstring).")
+    print(f"\nEncrypting Part 1 pool -> {POOL_OUT.name} ...")
+    encrypt_zip(POOL_OUT, [(pool_src, POOL_NAME)], password)
+
+    big_mb = DATA_OUT.stat().st_size / (1 << 20)
+    pool_kb = POOL_OUT.stat().st_size / 1024
+    print(f"\nDone:")
+    print(f"  {DATA_OUT}  ({big_mb:.0f} MB)")
+    print(f"  {POOL_OUT}  ({pool_kb:.1f} KB)")
+    print("Next: upload both as GitHub Release assets (see this file's docstring).")
 
 
 if __name__ == "__main__":
