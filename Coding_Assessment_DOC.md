@@ -94,6 +94,11 @@ It will print a LeetCode URL. Solve it on leetcode.com.
 
 ## Part 2 — Microscope image analysis
 
+> **Prefer the browser?** You can do Part 2 entirely in **Google Colab** — no local
+> setup or data download. Use the "Open in Colab" badge in `README.md`. It opens
+> `working_directory/notebook_colab.ipynb`; run the setup cells and enter the data
+> password (ask the interviewer). The rest of this section is for the local Jupyter route.
+
 ### Open Jupyter
 
 Open `notebook.ipynb`.
